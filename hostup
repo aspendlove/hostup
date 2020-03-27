@@ -1,0 +1,62 @@
+#!/bin/bash
+
+update () {
+cd ~/Desktop
+#delete old blacklist
+echo 'deleting old blacklist'
+sudo sed -i '/#starthostup/,/#endhostup/d' /etc/hosts
+#download new blacklist
+echo 'downloading new blacklist'
+wget -O stevenhost.txt https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+#append start marker, blacklist, and end marker to hosts file
+echo 'appending new blacklist'
+sudo -- sh -c "echo '#starthostup' >> /etc/hosts"
+sudo -- sh -c "sed '/# Title: StevenBlack\/hosts/,/ff02::3 ip6-allhosts/d' stevenhost.txt >> /etc/hosts"
+sudo -- sh -c "sudo echo '#endhostup' >> /etc/hosts"
+echo 'updated'
+}
+
+install () {
+cd ~/Desktop
+#make sure that two blacklists don't get appended if the user installs twice
+sudo sed -i '/#starthostup/,/#endhostup/d' /etc/hosts
+#download new blacklist
+echo 'downloading blacklist'
+wget -O stevenhost.txt https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+#append start marker, blacklist, and end marker to hosts file
+echo 'appending blacklist'
+sudo -- sh -c "echo '#starthostup' >> /etc/hosts"
+sudo -- sh -c "sed '/# Title: StevenBlack\/hosts/,/ff02::3 ip6-allhosts/d' stevenhost.txt >> /etc/hosts"
+sudo -- sh -c "sudo echo '#endhostup' >> /etc/hosts"
+echo 'installed'
+}
+
+undo () {
+sudo sed -i '/#starthostup/,/#endhostup/d' /etc/hosts
+echo 'reverted'
+}
+
+backup () {
+sudo cp /etc/hosts ~/Downloads
+echo 'host file backed up to ~/Downloads'
+}
+
+if [ "$1" = '-u' ]
+then
+	update
+elif [ "$1" = '-r' ]
+then
+	undo
+elif [ "$1" = '-b' ]
+then
+	backup
+elif [ "$1" = '-i' ]
+then
+	backup
+	install
+else
+	echo '-u = update hosts file'
+	echo '-r = revert hosts file (uninstall)'
+	echo '-b = backup hosts file to ~/Downloads'
+	echo '-i = initial install, backs up the host file to ~/Downloads and appends the blacklist to the host file'
+fi
