@@ -14,6 +14,8 @@ git clone https://github.com/copperly123/hostup.git
 
 cd hostup
 
+chmod a+x install.sh uninstall.sh
+
 ./install.sh
 
 hostup -i
