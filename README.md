@@ -37,12 +37,19 @@ cd Downloads/hostup/
 rm -rf ~/Downloads/hostup/
 
 # Usage
-hostup - display help message outlining the commands below
 
-hostup -i - Initial install to host file, does a backup of the file to ~/Downloads and appends the blacklist
+After the install process and a reboot you will start blocking ads/trackers
 
-hostup -u - Updates the host file with a new version of the blacklist
+You should regularly run "hostup -u" to update the blacklist
 
-hostup -b - Backs up the host file to ~/Downloads
+### Commands
 
-hostup -r - Reverts the host file to stock, removing the blacklist
+"hostup" - display help message outlining the commands below
+
+"hostup -i" - Initial install to host file, does a backup of the file to ~/Downloads and appends the blacklist
+
+"hostup -u" - Updates the host file with a new version of the blacklist.
+
+"hostup -b" - Backs up the host file to ~/Downloads
+
+"hostup -r" - Reverts the host file to stock, removing the blacklist
